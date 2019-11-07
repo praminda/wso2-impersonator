@@ -1,0 +1,161 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>org.wso2.carbon.identity.application.authenticator.impersonation</artifactId>
+    <packaging>bundle</packaging>
+    <name>Impersonation Authenticator</name>
+    <description>Impersonation Authenticatorr Implementation</description>
+    <version>1.0.0</version>
+
+    <parent>
+        <groupId>org.wso2</groupId>
+        <artifactId>wso2</artifactId>
+        <version>1</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.scr.ds-annotations</artifactId>
+            <version>${apache.felix.scr.ds.annotations.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang.wso2</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>${commons-lang.wso2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>${commons-logging.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.logging</artifactId>
+            <version>${carbon.kernel.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity.framework</groupId>
+            <artifactId>org.wso2.carbon.identity.application.authentication.framework</artifactId>
+            <version>${carbon.identity.framework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity.application.auth.basic</groupId>
+            <artifactId>org.wso2.carbon.identity.application.authenticator.basicauth</artifactId>
+            <version>${application.authenticator.basicauth.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.eclipse.osgi</groupId>
+            <artifactId>org.eclipse.osgi.services</artifactId>
+            <version>${equinox.osgi.services.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-scr-plugin</artifactId>
+                <version>${maven.scr.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate-scr-scrdescriptor</id>
+                        <goals>
+                            <goal>scr</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>${maven.bundle.plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Name>${project.artifactId}</Bundle-Name>
+                        <Private-Package>
+                            org.wso2.carbon.identity.application.authenticator.impersonation.internal.*
+                        </Private-Package>
+                        <Import-Package>
+                            org.osgi.framework.*;version="${osgi.framework.imp.pkg.version.range}",
+                            org.osgi.service.component.*;version="${osgi.service.component.imp.pkg.version.range}",
+
+                            javax.servlet.*; version="${imp.pkg.version.javax.servlet}",
+
+                            org.apache.commons.lang; version="${commons-lang.wso2.osgi.version.range}",
+                            org.apache.commons.logging.*; version="${commons-logging.osgi.version.range}",
+                            org.wso2.carbon.identity.application.authentication.framework.*;
+                            version="${carbon.identity.framework.imp.pkg.version.range}",
+                            org.wso2.carbon.identity.application.authenticator.basicauth.*;
+                            version="${application.authenticator.basicauth.import.range}",
+                            org.wso2.carbon.identity.core.util.*;
+                            version="${carbon.identity.framework.imp.pkg.version.range}",
+                            org.wso2.carbon.user.core.*; version="${carbon.kernel.package.import.version.range}",
+                            org.wso2.carbon.user.api.*; version="${carbon.user.api.imp.pkg.version.range}",
+                            org.wso2.carbon.utils.multitenancy.*;
+                            version="${carbon.multitenancy.imp.pkg.version.range}"
+                        </Import-Package>
+                        <Export-Package>
+                            !org.wso2.carbon.identity.application.authenticator.impersonation.internal.*,
+                            org.wso2.carbon.identity.application.authenticator.impersonation.*;
+                            version="${wso2.custom.components.exp.pkg.version}"
+                        </Export-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <properties>
+        <wso2.custom.components.exp.pkg.version>${project.version}</wso2.custom.components.exp.pkg.version>
+
+
+        <maven.compiler.plugin.version>2.3.1</maven.compiler.plugin.version>
+        <maven.scr.plugin.version>1.22.0</maven.scr.plugin.version>
+        <maven.bundle.plugin.version>2.4.0</maven.bundle.plugin.version>
+
+        <apache.felix.scr.ds.annotations.version>1.2.4</apache.felix.scr.ds.annotations.version>
+        <equinox.javax.servlet.version>3.0.0.v201112011016</equinox.javax.servlet.version>
+        <osgi.framework.imp.pkg.version.range>[1.7.0, 2.0.0)</osgi.framework.imp.pkg.version.range>
+        <osgi.service.component.imp.pkg.version.range>[1.2.0, 2.0.0)</osgi.service.component.imp.pkg.version.range>
+        <apache.felix.scr.ds.annotations.version>1.2.4</apache.felix.scr.ds.annotations.version>
+        <equinox.osgi.services.version>3.5.100.v20160504-1419</equinox.osgi.services.version>
+        <imp.pkg.version.javax.servlet>[2.6.0, 3.0.0)</imp.pkg.version.javax.servlet>
+
+        <commons-lang.wso2.version>2.6.0.wso2v1</commons-lang.wso2.version>
+        <commons-lang.wso2.osgi.version.range>[2.6.0,3.0.0)</commons-lang.wso2.osgi.version.range>
+        <commons-logging.version>1.2</commons-logging.version>
+        <commons-logging.osgi.version.range>[1.2,2.0)</commons-logging.osgi.version.range>
+
+        <!--Carbon Kernel Version-->
+        <carbon.kernel.version>4.4.35</carbon.kernel.version>
+        <carbon.kernel.package.import.version.range>[4.4.0, 5.0.0)</carbon.kernel.package.import.version.range>
+        <carbon.user.api.imp.pkg.version.range>[1.0.1, 2.0.0)</carbon.user.api.imp.pkg.version.range>
+
+        <carbon.multitenancy.imp.pkg.version.range>[4.4.0, 5.0.0)</carbon.multitenancy.imp.pkg.version.range>
+        <carbon.multitenancy.version>4.6.0</carbon.multitenancy.version>
+
+        <!--Carbon Identity Framework Version-->
+        <carbon.identity.framework.version>5.12.153</carbon.identity.framework.version>
+        <carbon.identity.framework.imp.pkg.version.range>[5.7.0, 6.0.0)
+        </carbon.identity.framework.imp.pkg.version.range>
+
+        <application.authenticator.basicauth.version>6.0.6</application.authenticator.basicauth.version>
+        <application.authenticator.basicauth.import.range>[6.0.0, 7.0.0)
+        </application.authenticator.basicauth.import.range>
+    </properties>
+</project>
