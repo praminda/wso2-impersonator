@@ -16,7 +16,7 @@ This authenticator can be used to implement a user impersonation scenario with a
 1. Clone the project using `git clone git@github.com:praminda/wso2-impersonator.git`.
 1. Build the project using `mvn clean install`.
 1. Copy the jar file created in project `target` directory to `$IS_HOME/repository/components/dropins/`.
-1. Open `$IS_HOME/repository/deployment/server/webapps/authenticationendpoint/login.jsp`
+1. Open [`$IS_HOME/repository/deployment/server/webapps/authenticationendpoint/login.jsp`](https://github.com/praminda/wso2-impersonator/blob/master/references/login.jsp)
 1. Add new authenticator reference to the list of authenticators in defined in the begining of the file.
 
     ```java
